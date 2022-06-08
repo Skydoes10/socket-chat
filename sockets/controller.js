@@ -28,7 +28,7 @@ const socketController = async (socket, io) => {
   socket.on("sendMessage", ({ uid, message, time }) => {
     if (uid) {
       // Private message
-      socket.to(uid).emit("receivedMsg-Private", { from: user.name, message });
+      socket.to(uid).emit("receivedMsg-Private", { from: user.name, message, time });
     } else {
       // Global message
       chatMessages.sendMessage(user.id, user.name, message, time);

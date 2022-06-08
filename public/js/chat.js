@@ -67,10 +67,11 @@ const showUsers = (users = []) => {
 
 const showMessages = (messages = []) => {
   let messagesHTML = "";
-  messages.forEach(({ name, message }) => {
+  messages.forEach(({ name, message, time }) => {
     messagesHTML += `
       <li>
         <p>
+          <span class="text-muted">${time}</span>
           <span class="text-primary">${name}</span>
           <span>${message}</span>
         </p>
@@ -87,7 +88,13 @@ txtMessage.addEventListener("keyup", ({ keyCode }) => {
   if (keyCode !== 13) return;
   if (message.length === 0) return;
 
-  socket.emit("sendMessage", { message, uid, time: new Date() });
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+  socket.emit("sendMessage", { message, uid,  time});
 
   txtMessage.value = "";
 });
